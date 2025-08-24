@@ -1,4 +1,256 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
+@tailwind utilities;
+
+/* Pallanguzhi Game Design System - Traditional South Indian Aesthetics
+All colors MUST be HSL for proper theming.
+*/
+
+@layer base {
+  :root {
+    /* Traditional Pallanguzhi Color Palette */
+    --background: 45 30% 94%; /* Warm beige background */
+    --foreground: 25 35% 12%; /* Dark brown text */
+
+    /* Wooden Board Colors */
+    --board-primary: 25 55% 35%; /* Rich teak brown */
+    --board-secondary: 30 45% 45%; /* Lighter wood tone */
+    --board-grain: 20 40% 25%; /* Dark wood grain */
+    --board-highlight: 35 60% 55%; /* Wood highlight */
+
+    /* Shell/Seed Colors */
+    --shell-primary: 45 25% 88%; /* Cream shell base */
+    --shell-secondary: 40 20% 85%; /* Shell variation */
+    --shell-shadow: 30 15% 75%; /* Shell shadow */
+    --shell-highlight: 50 30% 92%; /* Shell shine */
+
+    /* Gold Accents */
+    --gold-primary: 45 85% 50%; /* Traditional gold */
+    --gold-secondary: 40 75% 45%; /* Darker gold */
+    --gold-glow: 45 90% 65%; /* Gold highlight */
+
+    /* Game Elements */
+    --pit-inner: 25 40% 25%; /* Deep pit interior */
+    --pit-rim: 30 50% 40%; /* Pit edge */
+    --score-bowl: 28 48% 38%; /* Score collection bowls */
+
+    /* Interactive States */
+    --active-glow: 45 85% 60%; /* Active element glow */
+    --hover-highlight: 35 60% 65%; /* Hover state */
+    --valid-move: 120 50% 50%; /* Valid move indicator */
+    --invalid-move: 0 60% 50%; /* Invalid move indicator */
+
+    /* Traditional UI */
+    --card: 45 25% 92%;
+    --card-foreground: 25 35% 12%;
+    --popover: 45 25% 92%;
+    --popover-foreground: 25 35% 12%;
+    --primary: 25 55% 35%;
+    --primary-foreground: 45 25% 92%;
+    --secondary: 35 40% 80%;
+    --secondary-foreground: 25 35% 12%;
+    --muted: 40 20% 85%;
+    --muted-foreground: 25 20% 45%;
+    --accent: 45 85% 50%;
+    --accent-foreground: 25 35% 12%;
+    --destructive: 0 60% 50%;
+    --destructive-foreground: 45 25% 92%;
+    --border: 35 25% 80%;
+    --input: 40 20% 85%;
+    --ring: 45 85% 50%;
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    
+    /* Treasure chest gradient */
+    --gradient-radial: radial-gradient(circle at center, var(--tw-gradient-stops));
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+/* Custom Pallanguzhi Game Styles */
+@layer components {
+  .pit {
+    @apply relative w-16 h-16 rounded-full bg-gradient-to-br from-pit-rim to-pit-inner;
+    @apply border-2 border-board-grain shadow-inner cursor-pointer transition-all duration-300;
+    @apply hover:shadow-lg hover:border-hover-highlight;
+  }
+
+  .pit.active {
+    @apply ring-4 ring-active-glow ring-opacity-50 shadow-xl;
+  }
+
+  .pit.valid-move {
+    @apply ring-2 ring-valid-move ring-opacity-60;
+  }
+
+  .shell {
+    @apply absolute w-3 h-3 rounded-full bg-gradient-to-br from-shell-highlight to-shell-primary;
+    @apply border border-shell-shadow shadow-sm transition-all duration-300;
+    animation: shell-float 3s ease-in-out infinite;
+  }
+
+  .game-board {
+    @apply relative bg-gradient-to-br from-board-secondary to-board-primary;
+    @apply rounded-3xl p-8 shadow-2xl border-4 border-board-grain;
+    background-image: 
+      linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%),
+      linear-gradient(-45deg, rgba(0,0,0,0.1) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, rgba(0,0,0,0.1) 75%),
+      linear-gradient(-45deg, transparent 75%, rgba(0,0,0,0.1) 75%);
+    background-size: 4px 4px;
+  }
+
+  .score-bowl {
+    @apply w-20 h-20 rounded-full bg-gradient-to-br from-score-bowl to-board-grain;
+    @apply border-4 border-board-primary shadow-inner flex items-center justify-center;
+  }
+
+  .traditional-button {
+    @apply bg-gradient-to-r from-gold-secondary to-gold-primary;
+    @apply text-primary-foreground font-semibold px-6 py-3 rounded-xl;
+    @apply border-2 border-gold-secondary shadow-lg transition-all duration-300;
+    @apply hover:shadow-xl hover:scale-105 active:scale-95;
+  }
+
+  .player-indicator {
+    @apply text-center p-4 rounded-xl border-2 transition-all duration-300;
+    @apply bg-card border-border text-card-foreground;
+  }
+
+  .player-indicator.active {
+    @apply border-active-glow bg-gradient-to-br from-gold-glow/20 to-active-glow/20;
+    @apply shadow-lg ring-2 ring-active-glow ring-opacity-30;
+  }
+}
+
+@layer utilities {
+  .wood-texture {
+    background-image: 
+      repeating-linear-gradient(
+        0deg,
+        hsl(var(--board-primary)),
+        hsl(var(--board-primary)) 2px,
+        hsl(var(--board-secondary)) 2px,
+        hsl(var(--board-secondary)) 4px
+      );
+  }
+}
+
+@keyframes shell-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-2px) rotate(1deg); }
+  66% { transform: translateY(1px) rotate(-1deg); }
+}
+
+@keyframes shell-pickup {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-20px) scale(0.8); opacity: 0.8; }
+}
+
+@keyframes shell-drop {
+  0% { transform: translateY(-20px) scale(0.8); opacity: 0.8; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes capture-glow {
+  0% { 
+    box-shadow: 0 0 10px hsl(var(--gold-primary)); 
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 30px hsl(var(--gold-primary)), 0 0 40px hsl(var(--gold-primary)); 
+    transform: scale(1.1);
+  }
+  100% { 
+    box-shadow: 0 0 10px hsl(var(--gold-primary)); 
+    transform: scale(1);
+  }
+}
+
+@keyframes shell-sowing {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.2) translateY(-10px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+@keyframes compliment-entrance {
+  0% { 
+    transform: scale(0.5) translateY(50px); 
+    opacity: 0; 
+  }
+  50% { 
+    transform: scale(1.1) translateY(-10px); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: scale(1) translateY(0); 
+    opacity: 1; 
+  }
+}
+
+.animate-shell-float {
+  animation: shell-float 3s ease-in-out infinite;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    background-image: radial-gradient(circle at 25% 25%, hsl(var(--gold-primary) / 0.1) 0%, transparent 50%);
+  }
+}
